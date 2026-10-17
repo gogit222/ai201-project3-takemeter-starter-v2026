@@ -39,8 +39,7 @@
 
 ## What This Does
 
-<!-- Your community, and what your classifier sorts posts into. Three or four
-     sentences. -->
+TakeMeter sorts posts from [r/TrueFilm](https://www.reddit.com/r/TrueFilm/), a subreddit for in-depth film discussion, by what kind of take each post makes. It assigns one of four labels: `analysis` (a claim about a film backed by specific, checkable detail), `hot_take` (a confident verdict with no load-bearing support), `reaction` (mainly the writer's own viewing experience or taste), or `question` (a genuine request for explanation, recommendation or interpretation). The hardest line to draw is between `reaction` and `analysis`, since many posts mix personal response with scene detail. The classifier is a fine-tuned DistilBERT model trained on 228 labelled r/TrueFilm posts.
 
 
 
@@ -132,48 +131,50 @@ The probes were consistently classifiable after distinguishing genuine requests 
 
 ## The Dataset
 
-<!-- Where you collected from, how you labelled, your counts, and three hard
-     cases. -->
+**Where the posts came from:** Public text posts from [r/TrueFilm](https://www.reddit.com/r/TrueFilm/), collected on 17 October 2026 through the subreddit's public RSS feeds (`/new` and `/top`), using a short script run for about 15 minutes. That gave 393 unique posts dated October 2025 to October 2026, mostly September–October 2026. I dropped recurring mod threads ("Casual Discussion", "What Have You Been Watching"), an AMA crosspost, and link-only or pasted-article posts. Each row is the post's title plus its whole body, untrimmed, and each row's `note` links to the original post.
 
-**Where the posts came from:**
-
-**How I labelled them:** <!-- Cold first? Pre-labelled with AI and corrected?
-Say so plainly — the disclosure is required, not penalised. -->
+**How I labelled them:** Mostly by AI, in three stages.
+1. **AI pre-label.** AI pre-labelled all 375 usable posts using the definitions and decision rule above. I sampled 230: all 54 pre-labelled `hot_take` (the thinnest label), plus a seeded random sample of the other three labels. High-confidence posts weren't favoured, so the hard cases stayed in.
+2. **Cold set.** 20 randomly chosen posts were labelled cold, from the text alone, before their pre-labels were seen (marked `cold` in `note`). The cold labels matched the pre-labels on 19 of 20.
+3. **Review.** The other 210 were read in full against their pre-labels. 4 labels were changed and 2 more link-only posts were dropped.
 
 **Counts per label:**
 
 | Label | Count | Share |
 |---|---|---|
-|  |  |  |
-|  |  |  |
-|  |  |  |
-| **Total** |  | 100% |
+| `analysis` | 62 | 27.2% |
+| `reaction` | 57 | 25.0% |
+| `question` | 57 | 25.0% |
+| `hot_take` | 52 | 22.8% |
+| **Total** | 228 | 100% |
 
-**Three hard cases**
+No label is above 70%; the largest is 27%. All four labels fall within criterion 4's 40–70 range.
+
+**Three hard cases** (25 are logged in [hard_cases.md](hard_cases.md))
 
 <!-- Any post that made you pause: what it was, which two labels it could have
      been, and what you chose. These are worth more than the easy 190. -->
 
 **1.**
-> *The post:*
+> *The post:* [A missed-out potential for Quantum Of Solace](https://www.reddit.com/r/TrueFilm/comments/1ww8lu3/) is a long, ranty fan post about the Craig-era Bond films.
 >
-> *Could have been:*
+> *Could have been:* `hot_take` or `analysis`
 >
-> *I chose, because:*
+> *I chose, because:* `analysis`. The tone is all verdict, but the claim that the Craig films abandon the series' formula rests on checkable details: the Goldfinger Aston Martin reappearing in a "reboot", M knowing about the ejector seat, and how the gunbarrel sequence is staged. Tone doesn't decide the label; whether the details do work does. This was the one cold-set post where the pre-label (`hot_take`) disagreed.
 
 **2.**
-> *The post:*
+> *The post:* [One battle after another. Enjoyed it but didn't quite land for me](https://www.reddit.com/r/TrueFilm/comments/1pspdnu/)
 >
-> *Could have been:*
+> *Could have been:* `reaction` or `analysis`
 >
-> *I chose, because:*
+> *I chose, because:* `analysis` (changed from the `reaction` pre-label). The framing is personal, but most of the words argue specific failures: the Christmas Adventure Club is underdeveloped, so the antagonist's motive is thin, and the time jump ages Leo but not the antagonist. The decision rule ("classify by what the post spends most of its words doing") points to `analysis`. Itemised likes/dislikes rundowns with a score stayed `reaction`.
 
 **3.**
-> *The post:*
+> *The post:* [Thoughts on The Room (2003)?](https://www.reddit.com/r/TrueFilm/comments/1whzkce/)
 >
-> *Could have been:*
+> *Could have been:* `question` or `reaction`
 >
-> *I chose, because:*
+> *I chose, because:* `reaction` (changed from the `question` pre-label). It opens and closes with "what are your thoughts?", but the body is the writer's own viewing experience and their theory of sincere bad films. A generic "thoughts?" prompt isn't a request for explanation, recommendation or interpretation. The [Eric Rohmer post](https://www.reddit.com/r/TrueFilm/comments/1x1xok1/) stays `question` because it asks for specific next films.
 
 ---
 
@@ -181,15 +182,22 @@ Say so plainly — the disclosure is required, not penalised. -->
 
 <!-- Your starting model, your settings, and anything you changed and why. -->
 
-**Base model:**
+**Base model:** `distilbert-base-uncased`, the notebook's default.
 
-**Settings:** <!-- epochs, learning rate, batch size, seed -->
+**Settings:** 3 epochs, learning rate 2e-5, batch size 16, 128 tokens per post (`MAX_LENGTH`), seed 42. Trained on CPU (`torch 2.14.1+cpu`); training took about 4.3 minutes.
 
-**Anything I changed from the defaults, and why:**
+**Anything I changed from the defaults, and why:** No hyperparameters were changed; all of the settings above are the notebook defaults. The only change was to the environment: my C: drive was full, so the first two attempts failed (once with no space to download the model, once with Windows unable to grow its paging file). I moved the Hugging Face model cache to another drive and closed other programs before rerunning. This doesn't affect the results.
 
-**Split sizes:** <!-- train / val / test, and per-label counts in the test
-split. If a label had fewer than about 8 in test, say so — it explains a lot
-of next unit's variance. -->
+**Split sizes:** 158 train / 35 validation / 35 test (70/15/15, stratified, seed 42).
+
+| Label | Train | Val | Test |
+|---|---|---|---|
+| `analysis` | 44 | 9 | 9 |
+| `hot_take` | 36 | 8 | 8 |
+| `reaction` | 39 | 9 | 9 |
+| `question` | 39 | 9 | 9 |
+
+No label has fewer than 8 test examples, but `hot_take` is exactly at 8 and every label has only 8–9. One post changes a label's recall by 11–12 points, so per-label F1 will move a lot between seeds. Also, 128 tokens covers roughly the title and first 100 words of a post, and the median post is about 1,760 characters, so for most posts the model never sees the evidence that separates `analysis` from `hot_take`.
 
 
 
@@ -206,17 +214,18 @@ of next unit's variance. -->
 
 **Moment 1**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+- *What I asked for:* Gather at least 200 public r/TrueFilm posts into `labels.csv` with whole posts and a `text, label, note` shape, keeping any scraper timeboxed.
+- *What came back:* Claude's first try at Reddit's JSON API was blocked, so it switched to the subreddit's public RSS feeds and got 393 unique posts in about 15 minutes. Four Claude agents then pre-labelled every post using my label definitions and decision rule. Claude sampled 230 (all 54 `hot_take`, the thinnest label, plus a random sample of the rest) and marked every row as "AI pre-labelled, not yet checked". It also flagged that the notebook's 128-token limit only covers the start of each post.
+- *What I changed:* I didn't accept the unchecked pre-labels as final. I asked for 20 posts to be labelled cold before seeing their pre-labels, for the other 210 to be read and corrected, and for hard cases to be logged along the way. That review changed 4 labels (mostly `reaction` → `analysis` where a "didn't land for me" post was really argued critique), dropped 2 more link-only posts, and produced `hard_cases.md` with 25 entries.
 
 **Moment 2**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+- *What I asked for:* Run notebook sections 1–5 and commit `results.json` and `test_split.csv`.
+- *What came back:* Sections 1–3 ran cleanly (CPU, "Data looks fine", 158/35/35 split). Training failed twice: first my C: drive had no space for the model download, then Windows couldn't grow its paging file to load the model. Claude moved the model cache to my E: drive and explained the paging-file fix, but couldn't change system settings itself.
+- *What I changed:* I closed other programs and had it retry, and training then completed in about 4 minutes. I also had it take my name and email back out of the notebook before pushing, and amend the unpushed commit so they never reached GitHub.
 
-**Pre-labelling disclosure:**
+**Pre-labelling disclosure:**  Just for testing purposes.
+
 
 <!-- ═══════════════════════ UNIT 6 — THE TEST ═══════════════════════
 

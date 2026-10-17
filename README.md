@@ -83,6 +83,20 @@
      if the tone is heated." -->
 
 
+---
+
+## Candidate Distinctions
+
+These are preliminary, observable patterns from reading 30 public posts in r/TrueFilm. They are candidates to test against the 200-post sample, not the final label definitions. The 30-post sample included a cluster about one current film, so the dataset should span dates and avoid spoiler-heavy examples.
+
+- **Film-specific evidence vs. general evaluation:** Does the writer point to a scene, shot, performance, line, or sound and use it to support a claim? A passing detail may not do that work. For example, [The Verdict (1982)](https://www.reddit.com/r/TrueFilm/comments/1x71u9t/the_verdict_1982_by_sidney_lumet/) discusses long shots and unscored courtroom scenes.
+- **Film-only discussion vs. connections to other works or contexts:** Does the post build its interpretation through comparisons to other films, historical events, source texts, or critical ideas? For example, [Primetime as an anti-war film](https://www.reddit.com/r/TrueFilm/comments/1x7r6pb/primetime_as_an_antiwar_film_a_critique_of_the/) compares the film with the War on Terror and *To Catch a Predator*.
+- **Personal viewing experience vs. detached interpretation:** Does the writer make their own emotional response or life experience part of the claim, or focus mainly on formal analysis? For example, [Whalefall](https://www.reddit.com/r/TrueFilm/comments/1x6s2av/whalefall/) describes a physical reaction to suspense and close-ups.
+- **Open inquiry vs. settled thesis:** Is the post weighing alternatives or asking for an explanation, or presenting one interpretation as settled? For example, the [Memento memory question](https://www.reddit.com/r/TrueFilm/comments/1x7c5t4/memento_question_how_can_leonard_change_his_old/) asks how a character could retain information given the film's stated memory condition.
+
+These patterns can overlap. A personal reaction can cite scene details, and a confident interpretation can be carefully argued. For evidence-based distinctions, test whether cited details actually support the claim.
+
+
 
 ---
 

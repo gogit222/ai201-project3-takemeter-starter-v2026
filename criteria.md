@@ -53,11 +53,9 @@ whether you hit them:
 
 ## 1.
 
-<!-- Your criterion. It must name a number. -->
+Overall accuracy is at least **0.55 on the held-out test split for each of the three seeds**.
 
-
-
-**Why this target:**
+**Why this target:** A uniform guesser gets 0.25 with four labels, and the balance limit keeps a majority-label guesser to at most 0.35. A 0.55 target is 20 points above that stronger baseline, or about 17 correct out of 30 test posts, while still being plausible for a small dataset.
 
 
 
@@ -65,11 +63,9 @@ whether you hit them:
 
 ## 2.
 
-<!-- Your criterion. -->
+Every label has an F1 score of at least **0.40 on the held-out test split for each seed**.
 
-
-
-**Why this target:**
+**Why this target:** Overall accuracy could hide a label the model rarely recognizes. With at least 40 examples per label, roughly six examples of each label reach the 15% test split; that makes per-label F1 noisy, so 0.40 is a modest floor rather than an expectation of near-perfect classification.
 
 
 
@@ -77,11 +73,9 @@ whether you hit them:
 
 ## 3.
 
-<!-- Your criterion. -->
+For each seed, accuracy on the most-confident third of test predictions is at least **0.60** and at least **0.10 higher** than accuracy on the least-confident third.
 
-
-
-**Why this target:**
+**Why this target:** A useful confidence score should separate predictions the model is more likely to get right from those it is unsure about. Each third will contain about ten posts, so a 0.10 gap is one additional correct prediction and is a deliberately modest signal to look for.
 
 
 
@@ -89,11 +83,9 @@ whether you hit them:
 
 ## 4.
 
-<!-- Your criterion. -->
+In the planned 200-post dataset, each label has at least **40 posts**, and no label has more than **70 posts**.
 
-
-
-**Why this target:**
+**Why this target:** These limits keep every label between 20% and 35% of the data. That gives each class enough examples to appear in the test split and avoids letting one category dominate what the classifier learns.
 
 
 
@@ -101,11 +93,9 @@ whether you hit them:
 
 ## 5.
 
-<!-- Your criterion. -->
+The spread between the highest and lowest overall accuracy across the three seeds is at most **0.10**.
 
-
-
-**Why this target:**
+**Why this target:** The seeds change which posts land in the test set. A swing over ten percentage points would mean the reported score depends too much on that split to be a stable estimate for this dataset.
 
 
 

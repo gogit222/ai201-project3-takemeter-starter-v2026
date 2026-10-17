@@ -54,40 +54,52 @@
      The decision rule is worth a point on its own and it's the thing most
      people leave out. Every taxonomy has a hardest boundary. Name yours. -->
 
-### `label_one`
+### `analysis`
 
-**Definition:**
+**Definition:** Makes an interpretive or evaluative claim about a film and supports it with a specific, checkable detail or comparison that does real work in the reasoning.
 
-**Example 1:**
->
+**Example 1:** [The Verdict (1982)](https://www.reddit.com/r/TrueFilm/comments/1x71u9t/the_verdict_1982_by_sidney_lumet/) connects long shots, unscored courtroom scenes, and the final phone call to its reading of the film's mood and ending.
 
-**Example 2:**
->
+**Example 2:** [Primetime as an anti-war film](https://www.reddit.com/r/TrueFilm/comments/1x7r6pb/primetime_as_an_antiwar_film_a_critique_of_the/) uses named historical footage and parallels with *To Catch a Predator* to support its argument about media spectacle.
 
-### `label_two`
+### `hot_take`
 
-**Definition:**
+**Definition:** States a confident general verdict or interpretation about a film or filmmaker without a specific, load-bearing reason; a detail mentioned in passing does not count as support.
 
-**Example 1:**
->
+**Example 1:** [I think Backrooms (2026) will be looked back on as a masterpiece](https://www.reddit.com/r/TrueFilm/comments/1x68qdy/i_think_backrooms_2026_will_be_looked_back_on_as/) predicts future acclaim but offers no concrete film detail to support the prediction.
 
-**Example 2:**
->
+**Example 2:** [Digger is Tom Cruise's Best Acting](https://www.reddit.com/r/TrueFilm/comments/1x526sd/) makes a strong comparative claim about Cruise's performance without pointing to a specific performance choice or scene.
+
+### `reaction`
+
+**Definition:** Primarily reports the writer's personal viewing response or taste, rather than using evidence to establish a broader interpretation or claim.
+
+**Example 1:** [Whalefall](https://www.reddit.com/r/TrueFilm/comments/1x6s2av/whalefall/) centers on the writer holding their breath, gripping the seat, and feeling trapped during the viewing.
+
+**Example 2:** [Gone Girl (2014) - the last great Hollywood thriller?](https://www.reddit.com/r/TrueFilm/comments/1x65fpw/gone_girl_2014_the_last_great_hollywood_thriller/) is mainly a personal account of enjoying the pacing, cast, and mood, rather than a developed argument about the film.
+
+### `question`
+
+**Definition:** Primarily asks for an explanation, recommendation, or interpretation and does not present the answer as settled; supporting details provide context for the question.
+
+**Example 1:** [Memento question - How can Leonard change his old memories with new information?](https://www.reddit.com/r/TrueFilm/comments/1x7c5t4/memento_question_how_can_leonard_change_his_old/) lays out the film's memory premises and asks how they fit together.
+
+**Example 2:** [What was the OG trapped-in-an-insane-asylum horror film?](https://www.reddit.com/r/TrueFilm/comments/1x56455/) asks about the origin of a horror trope without proposing a settled answer.
 
 ### The hardest boundary
 
-**Which two labels:**
+**Which two labels:** `reaction` and `analysis`
 
-**The decision rule I used every time:**
-<!-- e.g. "If the post names a specific checkable fact, it's `analysis`, even
-     if the tone is heated." -->
+**The post:** [Whalefall](https://www.reddit.com/r/TrueFilm/comments/1x6s2av/whalefall/). It names close-ups and dangerous scenes, but uses them mainly to describe the writer's own physical response.
+
+**The decision rule I used every time:** If scene details mainly explain what the writer felt while watching, label `reaction`; use `analysis` only when those details support a broader claim about the film's craft, meaning, or effect. If both are present, classify by what the post spends most of its words doing.
 
 
 ---
 
 ## Candidate Distinctions
 
-These are preliminary, observable patterns from reading 30 public posts in r/TrueFilm. They are candidates to test against the 200-post sample, not the final label definitions. The 30-post sample included a cluster about one current film, so the dataset should span dates and avoid spoiler-heavy examples.
+These are preliminary, observable patterns from reading 32 public posts in r/TrueFilm. They informed the labels above but are not themselves labels. The initial 30-post sample included a cluster about one current film, so the dataset should span dates and avoid spoiler-heavy examples.
 
 - **Film-specific evidence vs. general evaluation:** Does the writer point to a scene, shot, performance, line, or sound and use it to support a claim? A passing detail may not do that work. For example, [The Verdict (1982)](https://www.reddit.com/r/TrueFilm/comments/1x71u9t/the_verdict_1982_by_sidney_lumet/) discusses long shots and unscored courtroom scenes.
 - **Film-only discussion vs. connections to other works or contexts:** Does the post build its interpretation through comparisons to other films, historical events, source texts, or critical ideas? For example, [Primetime as an anti-war film](https://www.reddit.com/r/TrueFilm/comments/1x7r6pb/primetime_as_an_antiwar_film_a_critique_of_the/) compares the film with the War on Terror and *To Catch a Predator*.
@@ -95,6 +107,24 @@ These are preliminary, observable patterns from reading 30 public posts in r/Tru
 - **Open inquiry vs. settled thesis:** Is the post weighing alternatives or asking for an explanation, or presenting one interpretation as settled? For example, the [Memento memory question](https://www.reddit.com/r/TrueFilm/comments/1x7c5t4/memento_question_how_can_leonard_change_his_old/) asks how a character could retain information given the film's stated memory condition.
 
 These patterns can overlap. A personal reaction can cite scene details, and a confident interpretation can be carefully argued. For evidence-based distinctions, test whether cited details actually support the claim.
+
+
+---
+
+## Stress Test
+
+These eight synthetic boundary probes were AI-generated for testing the definitions; they are not source posts and must not be added to the dataset.
+
+1. **`hot_take`** — "This is the best film of the year. The director has never made a bad one." The verdict has no supporting reason.
+2. **`analysis`** — "The opening frames Mara behind a locked door; the final shot repeats that framing with the door open. That visual change makes her decision to leave feel earned." Checkable details support the interpretation.
+3. **`reaction`** — "I watched it last night and left the theater buzzing; the quiet minute after the final scene made me unexpectedly sad." The point is the viewer's response.
+4. **`question`** — "The same key appears in the first and last scenes. Do you read it as proof that Mara planned the escape, or as a visual echo?" It requests interpretation without settling one.
+5. **`hot_take`** — "The ending is objectively terrible. The director has lost it." This is a confident judgment with no evidence.
+6. **`analysis`** — "The film cuts away before the door opens twice, then holds on the third attempt; that change makes Mara's choice more important than the outcome." The repeated formal detail supports the claim.
+7. **`reaction`** — "I got restless halfway through and felt relieved when it ended. It just didn't hold me." This reports personal taste without asserting a general verdict.
+8. **`question`** — "The final conversation leaves the accusation unanswered. Which earlier scene gives the strongest clue about who is lying?" It asks for evidence rather than offering a conclusion.
+
+The probes were consistently classifiable after distinguishing genuine requests from rhetorical questions, personal response from general verdict, and load-bearing evidence from decorative detail. I kept the four definitions and made those checks explicit in the decision rule.
 
 
 

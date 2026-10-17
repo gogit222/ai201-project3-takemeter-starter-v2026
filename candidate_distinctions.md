@@ -1,6 +1,6 @@
 # Candidate Distinctions
 
-Working notes from reading 30 public posts in [r/TrueFilm](https://www.reddit.com/r/TrueFilm/). These are observable text patterns to test, not the final label definitions. The first 30 newest posts included a cluster about *Digger*, so the eventual 200-post sample should span dates and avoid spoiler-heavy examples.
+Working notes from reading 32 public posts in [r/TrueFilm](https://www.reddit.com/r/TrueFilm/). These are observable text patterns to test, not the final label definitions. The first 30 newest posts included a cluster about *Digger*, so the eventual 200-post sample should span dates and avoid spoiler-heavy examples.
 
 ## 1. Film-specific evidence vs. general evaluation
 

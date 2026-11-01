@@ -267,28 +267,41 @@ The trained model improved accuracy by 8.6 percentage points and macro F1 by 0.0
 
 | Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
 |---|---|---|---|---|---|
-| 1.  |  |  |  |  |  |
-| 2.  |  |  |  |  |  |
-| 3.  |  |  |  |  |  |
-| 4.  |  |  |  |  |  |
-| 5.  |  |  |  |  |  |
+| 1. Overall accuracy | >=0.55 | 0.343 | 0.314 | 0.343 | MISSED |
+| 2. F1 for every label | >=0.40 each | analysis 0.421; hot_take 0.000; reaction 0.364; question 0.308 | analysis 0.474; hot_take 0.000; reaction 0.000; question 0.286 | analysis 0.300; hot_take 0.200; reaction 0.250; question 0.500 | MISSED |
+| 3. Confidence separation | Most-sure third >=0.60 and >=0.10 above least-sure third | 0.273 / 0.364 | 0.273 / 0.273 | 0.545 / 0.182 | MISSED |
+| 4. Label counts | 40-70 per label | 62 / 52 / 57 / 57 | 62 / 52 / 57 / 57 | 62 / 52 / 57 / 57 | MET |
+| 5. Accuracy spread | <=0.10 | 0.343 | 0.314 | 0.343 | MET (0.029) |
+
+For criterion 3, the confidence values are most-sure third / least-sure third. For criterion 4, counts are ordered analysis / hot_take / reaction / question.
+
+### Three-seed metrics
+
+| Measure | Seed 42 | Seed 7 | Seed 2024 | Spread |
+|---|---|---|---|---|
+| Overall accuracy | 0.343 | 0.314 | 0.343 | 0.029 |
+| Macro F1 | 0.273 | 0.190 | 0.312 | 0.123 |
+| F1 — `analysis` | 0.421 | 0.474 | 0.300 | 0.174 |
+| F1 — `hot_take` | 0.000 | 0.000 | 0.200 | 0.200 |
+| F1 — `reaction` | 0.364 | 0.000 | 0.250 | 0.364 |
+| F1 — `question` | 0.308 | 0.286 | 0.500 | 0.214 |
+
+Accuracy moved 0.029 (2.9 percentage points), below the 0.10 instability threshold; criterion 5 is met. Macro F1 moved 0.123, and per-label F1 is less stable on these small test splits.
 
 ### Confusion matrix
 
 <!-- ⚠️ TYPED AS A MARKDOWN TABLE. The notebook prints one ready to paste.
      An image of a matrix earns nothing. -->
 
-| true \ predicted |  |  |  |
-|---|---|---|---|
-| **** |  |  |  |
-| **** |  |  |  |
-| **** |  |  |  |
+| true \ predicted | analysis | hot_take | reaction | question |
+|---|---|---|---|---|
+| **analysis** | 8 | 0 | 0 | 1 |
+| **hot_take** | 7 | 0 | 0 | 1 |
+| **reaction** | 7 | 0 | 2 | 0 |
+| **question** | 7 | 0 | 0 | 2 |
 
 **My biggest off-diagonal number, and what it means:**
-<!-- Not "the model made mistakes" — WHICH boundary it didn't learn, and which
-     direction. "7 real analysis posts were called hot_take and only 3 went the
-     other way" is a direction, not just an error rate. -->
-
+Seven true `hot_take`, seven `reaction`, and seven `question` posts were each called `analysis`; the reverse confusions were 0, 0, and 1, respectively, showing a strong one-way bias toward `analysis`.
 
 
 ---

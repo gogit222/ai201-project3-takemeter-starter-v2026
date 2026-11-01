@@ -1,11 +1,4 @@
-# Your label definitions, one per line, as `label: definition`.
-#
-# Copy these from your README so the baseline is judged on exactly the
-# definitions you wrote. baseline.py reads this file.
-#
-# Keep these definitions in sync with the Label Taxonomy in README.md.
-
-analysis: makes an interpretive or evaluative film claim supported by a specific, checkable detail or comparison that does real work in the reasoning
-hot_take: states a confident general film verdict or interpretation without a specific, load-bearing reason
-reaction: primarily reports the writer's personal viewing response or taste rather than establishing a broader interpretation or claim
-question: primarily asks for an explanation, recommendation, or interpretation without presenting the answer as settled
+analysis: Makes an interpretive or evaluative claim about a film and supports it with a specific, checkable detail or comparison that does real work in the reasoning.
+hot_take: States a confident general verdict or interpretation about a film or filmmaker without a specific, load-bearing reason; a detail mentioned in passing does not count as support.
+reaction: Primarily reports the writer's personal viewing response or taste, rather than using evidence to establish a broader interpretation or claim.
+question: Primarily asks for an explanation, recommendation, or interpretation and does not present the answer as settled; supporting details provide context for the question.

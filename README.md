@@ -205,7 +205,7 @@ No label has fewer than 8 test examples, but `hot_take` is exactly at 8 and ever
 
 ## How I Used AI
 
-<!-- Two specific moments — what you asked, what came back, what you changed.
+<!-- Three specific moments — what you asked, what came back, what you changed.
 
      ⚠️ Plus disclosure of any pre-labelling. If you had a model pre-label a
      batch and then read and corrected every one, say that. It's an allowed
@@ -224,7 +224,13 @@ No label has fewer than 8 test examples, but `hot_take` is exactly at 8 and ever
 - *What came back:* Sections 1–3 ran cleanly (CPU, "Data looks fine", 158/35/35 split). Training failed twice: first my C: drive had no space for the model download, then Windows couldn't grow its paging file to load the model. Claude moved the model cache to my E: drive and explained the paging-file fix, but couldn't change system settings itself.
 - *What I changed:* I closed other programs and had it retry, and training then completed in about 4 minutes. I also had it take my name and email back out of the notebook before pushing, and amend the unpushed commit so they never reached GitHub.
 
-**Pre-labelling disclosure:**  Just for testing purposes.
+**Moment 3**
+
+- *What I asked for:* Apply the staff taxonomy to the 30 staff posts, interpret the three-seed results, and pick one improvement.
+- *What came back:* The AI assistant assigned the labels in `my_staff_labels.csv` and identified the repeated `analysis` predictions in the confusion matrix. It suggested testing more epochs because training and validation losses were still falling at epoch 3. These 30 labels were AI-generated, not independent human judgments.
+- *What I changed:* I increased the epoch count from 3 to 5, kept the data and three seeds unchanged, and reran section 6 with `RUN_LABEL = "after"`. Mean accuracy rose from 0.333 to 0.400 and mean macro F1 from 0.258 to 0.323, but `hot_take` F1 remained 0.000 in every seed. I have not independently reviewed the AI-generated staff labels; the official label file is still unavailable behind CodePath sign-in, so agreement and adjudication remain pending.
+
+**Pre-labelling disclosure:** AI pre-labelled the project dataset, as described in Moment 1. In this unit, an AI assistant also generated all 30 labels in `my_staff_labels.csv`; they have not been independently reviewed.
 
 
 <!-- ═══════════════════════ UNIT 6 — THE TEST ═══════════════════════
@@ -313,11 +319,11 @@ Seven true `hot_take`, seven `reaction`, and seven `question` posts were each ca
 
 | # | Criterion | Target | Verdict | How I decided |
 |---|---|---|---|---|
-| 1 |  |  |  |  |
-| 2 |  |  |  |  |
-| 3 |  |  |  |  |
-| 4 |  |  |  |  |
-| 5 |  |  |  |  |
+| 1 | Overall accuracy | >=0.55 for each seed | MISSED | All three scores are below target: 0.343, 0.314, 0.343. |
+| 2 | Every label F1 | >=0.40 for each label and seed | MISSED | `hot_take` F1 is 0.000, 0.000, 0.200; other labels also fall below 0.40. |
+| 3 | Confidence separation | Most-confident third >=0.60 and >=0.10 above least-confident third | MISSED | The most-confident third scores 0.273, 0.273, 0.545; none reaches 0.60. Seed 42 is worse than its least-confident third. |
+| 4 | Label counts | 40-70 per label | MET | Counts are 62 analysis, 52 hot_take, 57 reaction, 57 question. |
+| 5 | Accuracy spread | <=0.10 | MET | The measured spread is 0.029. |
 
 **Diagnoses**
 
@@ -330,7 +336,13 @@ Seven true `hot_take`, seven `reaction`, and seven `question` posts were each ca
      have that can tell a LABELLING problem from a MODEL problem, and this
      section is graded on whether you used it that way. -->
 
+**Agreement evidence is pending:** `my_staff_labels.csv` contains all 30 exact post texts, but the provided CodePath URL redirected to its sign-in page. There is no `data/staff_labels.csv` or `agreement_results.json`, so I cannot yet distinguish inconsistent labels from model limitations.
 
+**Criteria 1 and 2 — weak class separation:** The seed-42 matrix sends seven posts each from `hot_take`, `reaction`, and `question` to `analysis`; seed 7 sends four, nine, and seven respectively. The class counts are reasonably balanced (52-62 total examples each), but there are only 36-44 training examples per label and 8-9 test examples. The 128-token limit may also truncate the evidence needed to separate labels. These results point to limited training signal and poor separation, but the missing agreement report prevents ruling out inconsistent labels.
+
+**Criterion 3 — confidence is not predictive:** The most-confident third is correct on only 0.273, 0.273, and 0.545 of posts. In seed 42 it performs worse than the least-confident third (0.364), and in seed 7 the two thirds tie (0.273). The model's confidence does not reliably distinguish correct from incorrect predictions on these small test sets.
+
+**No criteria were revised:** all five targets were measurable, so missed targets remain unchanged.
 
 ---
 
@@ -342,14 +354,14 @@ Seven true `hot_take`, seven `reaction`, and seven `question` posts were each ca
      data/staff_taxonomy.md, not your own — so every argument below is made
      from those definitions and those decision rules. -->
 
-**Agreement rate:** ___ / 30 = ___%
+**Agreement rate:** Pending the authentic `data/staff_labels.csv`; the supplied download URL currently requires CodePath sign-in.
 
 <!-- Nobody grades this number. A 60% who argues every disagreement from the
      stated rules beats a 95% who wrote "staff was right" nine times. Several
      of the 30 were chosen because they're genuinely ambiguous — you should be
      winning some of these. -->
 
-**Disagreements**
+**Disagreements:** Pending the staff labels. I will adjudicate each mismatch and sort it into pile (a), (b), or (c) after `agreement.py` can run.
 
 <!-- Three lines each: the post, both labels, and who you think is right and
      why — grounded in the staff definitions you were both applying.
@@ -364,50 +376,28 @@ Seven true `hot_take`, seven `reaction`, and seven `question` posts were each ca
      written rule two different ways on 30 posts, that is direct evidence about
      what you did across your own 200. -->
 
-**1.**
-> *The post:*
->
-> *Staff said / I said:*
->
-> *My call, and why:*
->
-> *Which pile:*
-
-**2.**
-> *The post:*
->
-> *Staff said / I said:*
->
-> *My call, and why:*
->
-> *Which pile:*
-
-**What the pattern in my disagreements tells me:**
-
-
-
 ---
 
 ## The Improvement
 
-**What I changed:**
+**What I changed:** I increased `EPOCHS` from 3 to 5 and changed no other training setting or data. Section 6 used the same three seeds and splits, with `RUN_LABEL = "after"`.
 
-**Which diagnosis pointed at it:**
+**Which diagnosis pointed at it:** Training and validation losses were still decreasing at epoch 3, so the original run may have stopped before the model finished learning. This motivated testing two additional epochs; it does not establish that training duration was the only cause of the earlier errors.
 
 ### Run Log — After
 
 | Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
 |---|---|---|---|---|---|
-| 1.  |  |  |  |  |  |
-| 2.  |  |  |  |  |  |
-| 3.  |  |  |  |  |  |
-| 4.  |  |  |  |  |  |
-| 5.  |  |  |  |  |  |
+| 1. Overall accuracy | >=0.55 | 0.371 | 0.429 | 0.400 | MISSED |
+| 2. F1 for every label | >=0.40 each | analysis 0.400; hot_take 0.000; reaction 0.500; question 0.400 | analysis 0.522; hot_take 0.000; reaction 0.167; question 0.593 | analysis 0.500; hot_take 0.000; reaction 0.333; question 0.462 | MISSED |
+| 3. Confidence separation | Most-sure third >=0.60 and >=0.10 above least-sure third | 0.364 / 0.273 | 0.545 / 0.273 | 0.636 / 0.273 | MISSED |
+| 4. Label counts | 40-70 per label | 62 / 52 / 57 / 57 | 62 / 52 / 57 / 57 | 62 / 52 / 57 / 57 | MET |
+| 5. Accuracy spread | <=0.10 | 0.371 | 0.429 | 0.400 | MET (0.057) |
+
+For criterion 3, the confidence values are most-sure third / least-sure third. For criterion 4, counts are ordered analysis / hot_take / reaction / question.
 
 **Did it help, and how do I know:**
-
-<!-- If it didn't, say so. Relabelling that didn't help is a genuinely
-     interesting result and earns full credit. -->
+Yes, overall results improved but the change did not meet the accuracy target. Mean accuracy rose from 0.333 before to 0.400 after, and mean macro F1 rose from 0.258 to 0.323. `reaction` F1 improved in all three seeds, but `hot_take` F1 stayed at 0.000 across all three, and criteria 1-3 remain MISSED.
 
 
 
@@ -417,11 +407,12 @@ Seven true `hot_take`, seven `reaction`, and seven `question` posts were each ca
 
 <!-- For each criterion still missed: what you'd do, and why you stopped. -->
 
+Accuracy remains below 0.55 for all three seeds; every label does not reach F1 0.40 because `hot_take` F1 is 0.000 in every after-run. Confidence separation also misses its target in all seeds: only seed 2024 reaches 0.60 for its most-confident third, while seed 42's most-confident third is only 0.091 above its least-confident third. I stopped at this one controlled change rather than stacking more training edits; the staff agreement comparison is still pending because the course download requires sign-in.
 
 
 **The gap between what I meant my labels to capture and what the model
 learned:**
-<!-- Two sentences. Your confusion matrix is the evidence. -->
+I intended `analysis` to require a specific fact that carries the argument, with unsupported verdicts classified as `hot_take`. After five epochs, the seed-42 matrix still sends seven of eight true `hot_take` posts to `analysis`, so the model has not learned that support boundary reliably.
 
 
 

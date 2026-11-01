@@ -241,18 +241,20 @@ No label has fewer than 8 test examples, but `hot_take` is exactly at 8 and ever
 
 | Measure | Baseline | Trained | Difference |
 |---|---|---|---|
-| Overall accuracy |  |  |  |
-| Macro F1 |  |  |  |
-| F1 — `label_one` |  |  |  |
-| F1 — `label_two` |  |  |  |
+| Overall accuracy | 0.257 | 0.343 | +0.086 |
+| Macro F1 | 0.174 | 0.273 | +0.099 |
+| F1 — `analysis` | 0.343 | 0.421 | +0.078 |
+| F1 — `hot_take` | 0.000 | 0.000 | +0.000 |
+| F1 — `question` | 0.353 | 0.308 | -0.045 |
+| F1 — `reaction` | 0.000 | 0.364 | +0.364 |
+
+**Definition prompt check:** With bare label names instead of the definitions, baseline accuracy was 0.543 and macro F1 was 0.496 on the same 35 posts. Adding the definitions changed accuracy by -0.286 (a 28.6 percentage-point decrease) and macro F1 by -0.322. The bare-names result is a separate prompt check; the table above reports the definitions-based baseline.
 
 **What I predicted before I looked:**
-<!-- Milestone 1 asks you to write this BEFORE seeing the trained numbers. A
-     prediction made afterwards isn't one. -->
+I expected the trained model to beat the zero-shot baseline on `analysis` and `reaction`, where its labelled examples could help distinguish evidence-backed interpretation from personal response.
 
 **What the gap actually means:**
-<!-- If the baseline matched your trained model, your fine-tuning added
-     nothing — and that is a real finding, not a failure. Say it plainly. -->
+The trained model improved accuracy by 8.6 percentage points and macro F1 by 0.099, with its largest gain on `reaction`; it did not improve `hot_take` F1 and scored lower on `question` F1.
 
 
 
